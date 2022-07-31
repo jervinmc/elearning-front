@@ -1,0 +1,23 @@
+@font-face {
+    font-family: "Avenir";
+    src: local("Avenir"),
+     url(~assets/fonts/avenir_ff/AvenirLTStd-Book.otf) ;
+}
+
+html {
+    font-family: "Avenir";
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.pointer:hover{
+    cursor: pointer;
+    color: #ef5777;
+}
+.centralized-item{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
