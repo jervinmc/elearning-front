@@ -13,9 +13,10 @@
         <v-col cols="6">
           <v-card width="600" class="rounded-xl">
             <div
-              style="background-color: #ef5777; color: white"
+            
+              style="color: white"
               align="start"
-              class="pa-5"
+              class="pa-5 secondary"
             >
               Login Form
             </div>

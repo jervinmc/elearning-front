@@ -191,7 +191,8 @@ export default {
       if (!this.isValid) return;
       console.log(this.register);
       try {
-        await this.$store.dispatch("users/addUser", this.register);
+        this.register.account_type ='Student'
+        await this.$store.dispatch("users/add", this.register);
         alert("Successful !");
         location="/login"
       } catch (error) {

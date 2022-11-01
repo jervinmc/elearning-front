@@ -54,7 +54,7 @@ export default {
       login: "/login",
       logout: "/",
       callback: "/login",
-      home: "/client/profile"
+      home: "/route"
     }
   },
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -102,9 +102,9 @@ export default {
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
         },light: {
-          primary: colors.blue.darken2,
+          primary: '#28140',
           accent: colors.grey.darken3,
-          secondary: '#ef5777',
+          secondary: '#28104E',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

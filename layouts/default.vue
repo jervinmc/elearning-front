@@ -1,16 +1,23 @@
 <template>
   <v-app dark>
     <v-navigation-drawer
-    v-if="false"
+      color="secondary"
+      dark
+      v-if="$route.name != 'login' && $route.name != 'index' && $auth.loggedIn && $route.name != 'contact'"
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
       fixed
       app
     >
+      <div>
+        <v-img src="/images/logo_elearning.jpg" height="50" width="50"></v-img>
+      </div>
       <v-list>
         <v-list-item
-          v-for="(item, i) in items"
+          v-for="(item, i) in $auth.user.account_type == 'Student'
+            ? items
+            : items_admin"
           :key="i"
           :to="item.to"
           router
@@ -25,25 +32,14 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar v-if="false" :clipped-left="clipped" fixed app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="clipped = !clipped">
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
-    </v-app-bar>
     <!-- is not logged in yet -->
-    <v-app-bar color="white" v-if="true" :clipped-left="clipped" fixed app>
+    <v-app-bar
+      color="white"
+      v-if="$route.name == 'login' || $route.name == 'index' || $route.name == 'register' || $route.name == 'contact' "
+      :clipped-left="clipped"
+      fixed
+      app
+    >
       <div align="start">
         <v-img
           class="pointer"
@@ -55,24 +51,82 @@
         />
       </div>
       <v-spacer />
-      <div :class="$route.name=='contact' ? 'px-10 pointer secondary--text' : 'px-10 pointer'" @click="pushRoute('contact')">Contact Us</div>
+      <div
+        :class="
+          $route.name == 'contact'
+            ? 'px-10 pointer secondary--text'
+            : 'px-10 pointer'
+        "
+        @click="pushRoute('contact')"
+      >
+        Contact Us
+      </div>
       <!-- <div :class="$route.name=='client-profiles' ? 'px-10 pointer secondary--text' : 'px-10 pointer'">Travel Requirements</div> -->
-      <div :class="$route.name=='login' ? 'px-10 pointer secondary--text' : 'px-10 pointer'" @click="pushRoute('login')" v-if="!$auth.loggedIn">Login</div>
-      <div  :class="$route.name=='client-profile' ? 'px-10 pointer secondary--text' : 'px-10 pointer'" @click="pushRoute('client/profile')" v-else>My Profile</div>
-      <div  :class="$route.name=='client-message' ? 'px-10 pointer secondary--text' : 'px-10 pointer'" @click="pushRoute('client/messages')" v-if="$auth.loggedIn">Messages</div>
+      <div
+        :class="
+          $route.name == 'login'
+            ? 'px-10 pointer secondary--text'
+            : 'px-10 pointer'
+        "
+        @click="pushRoute('login')"
+        v-if="!$auth.loggedIn"
+      >
+        Login
+      </div>
       <div class="px-10 pointer" v-if="!$auth.loggedIn">
-        <v-btn dark depressed color="secondary" @click="pushRoute('register')"> Sign up </v-btn>
+        <v-btn dark depressed color="secondary" @click="pushRoute('register')">
+          Sign up
+        </v-btn>
       </div>
       <div class="px-10 pointer" v-else>
-        <v-btn dark depressed color="secondary" @click="$auth.logout()"> Logout </v-btn>
+        <v-btn dark depressed color="secondary" @click="$auth.logout()">
+          Logout
+        </v-btn>
+     
       </div>
+    </v-app-bar>
+    <v-app-bar v-else :clipped-left="clipped" fixed app>
+      <div class="text-h5">
+        <b>Welcome to e-learning!</b>
+      </div>
+      <v-spacer></v-spacer>
+        <v-col cols="auto">
+        <v-avatar color="black" size="35" class="white--text"> J </v-avatar>
+      </v-col>
+      <div v-if="$auth.loggedIn">
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-col v-bind="attrs" v-on="on">
+              <div>{{ $auth.user.firstname }} {{ $auth.user.lastname }}</div>
+              <div>{{ $auth.user.account_type }}</div>
+            </v-col>
+          </template>
+          <v-list>
+            <v-list-item>
+              <v-list-item-title class="pointer" @click="goToAccount()"
+                >My Account</v-list-item-title
+              >
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-title class="pointer" @click="$auth.logout()"
+                >Logout</v-list-item-title
+              >
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+      <!-- <div class="px-10 pointer">
+        <v-btn dark depressed color="secondary" @click="$auth.logout()">
+          Logout
+        </v-btn>
+      </div> -->
     </v-app-bar>
     <v-main>
       <v-container fluid class="pa-0">
         <Nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed >
+    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-list>
         <v-list-item @click.native="right = !right">
           <v-list-item-action>
@@ -82,48 +136,17 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-footer  padless>
-      <v-card flat tile>
-        <v-card-text>
-          <v-btn
-            v-for="icon in iconFooter"
-            :key="icon"
-            class="mx-4 secondary--text"
-            icon
-          >
-            <v-icon size="24px">
-              {{ icon }}
-            </v-icon>
-          </v-btn>
-        </v-card-text>
-
-        <v-card-text class="black--text pt-0">
-          Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet.
-          Mauris cursus commodo interdum. Praesent ut risus eget metus luctus
-          accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim
-          a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula
-          lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus
-          iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum
-          tempor vel ut orci. Orci varius natoque penatibus et magnis dis
-          parturient montes, nascetur ridiculus mus.
-        </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-text class="secondary--text">
-          <a href="https://www.freepik.com/vectors/claim">Claim vector created by pch.vector - www.freepik.com</a>
-          {{ new Date().getFullYear() }} — <strong>R2M</strong>
-        </v-card-text>
-      </v-card>
-    </v-footer>
   </v-app>
 </template>
 
 <script>
 export default {
   methods: {
-    pushRoute(link){
-        window.location.href=`/${link}`
+    goToAccount(){
+      location="/account"
+    },
+    pushRoute(link) {
+      window.location.href = `/${link}`;
     },
     goIndex() {
       window.location.href = "/";
@@ -133,19 +156,81 @@ export default {
   data() {
     return {
       clipped: false,
-      drawer: false,
+      drawer: true,
       fixed: false,
-      iconFooter: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
-      items: [
+      iconFooter: [
+        "mdi-facebook",
+        "mdi-twitter",
+        "mdi-linkedin",
+        "mdi-instagram",
+      ],
+      items_admin: [
+        // {
+        //   icon: "mdi-apps",
+        //   title: "Dashboard",
+        //   to: "/",
+        // },
         {
-          icon: "mdi-apps",
-          title: "Welcome",
-          to: "/",
+          icon: "mdi-chart-bubble",
+          title: "List of Class",
+          to: "/admin/classes",
         },
         {
           icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          title: "Classroom Folders",
+          to: "/folder",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Settings",
+          to: "/admin/settings",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Help",
+          to: "/admin/help",
+        },
+      ],
+      items: [
+        // {
+        //   icon: "mdi-apps",
+        //   title: "Dashboard",
+        //   to: "/",
+        // },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Notification",
+          to: "/students/notification",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Classes",
+          to: "/students/classes",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "TO-DO",
+          to: "/students/todo",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Offline Files",
+          to: "/students/offline",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Classroom Folders",
+          to: "/folder",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Settings",
+          to: "/students/settings",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Help",
+          to: "/help",
         },
       ],
       miniVariant: false,
