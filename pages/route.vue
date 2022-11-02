@@ -8,7 +8,7 @@
 export default {
     created(){
         if(this.$auth.user.account_type=='Admin') location='/admin/classes'
-        else location='/notification'
+        else location='/students/classes'
     }
 }
 </script>
