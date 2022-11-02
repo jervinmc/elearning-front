@@ -91,6 +91,12 @@
             <v-icon>mdi-download</v-icon> Download
            </div>
           </template>
+          <template #[`item.results`]="{ item }">
+           <div >
+            {{item.results*100}}%
+           </div>
+          </template>
+          
         </v-data-table>
       </div>
     </div>
@@ -116,7 +122,7 @@ export default {
   },
   methods: {
     downloadFile(file){
-        location=`/${file.files}`
+        location=`${file.files}`
     },
     refresh(){
         this.addForm = false;
@@ -148,6 +154,7 @@ export default {
           value: "author",
         },
         { text: "File Name", value: "file_name" },
+                { text: "Results", value: "results" },
         { text: "Actions", value: "action" },
       ],
     };
