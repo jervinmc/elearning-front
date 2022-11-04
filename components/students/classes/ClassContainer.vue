@@ -88,7 +88,7 @@ export default {
         { text: "ID", value: "id" },
         { text: "Code", value: "code" },
         { text: "Class Name", value: "class_name" },
-        { text: "Actions", value: "opt" },
+   
         ,
       ],
       editForm: false,

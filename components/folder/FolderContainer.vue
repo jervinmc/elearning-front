@@ -91,6 +91,11 @@
             <v-icon>mdi-download</v-icon> Download
            </div>
           </template>
+          <template #[`item.percent_from`]="{ item }">
+           <div  >
+              {{item.results*100==0 ? '' : item.percent_from }}
+           </div>
+          </template>
           <template #[`item.results`]="{ item }">
            <div >
             {{item.results*100}}%
@@ -155,6 +160,7 @@ export default {
         },
         { text: "File Name", value: "file_name" },
                 { text: "Results", value: "results" },
+        { text: "Plagiarism from", value: "percent_from" },
         { text: "Actions", value: "action" },
       ],
     };

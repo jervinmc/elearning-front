@@ -7,7 +7,6 @@ const actions = {
       response.data = data;
     },
     async edit({ commit },  data ) {
-      console.log(customer)
       const response = await this.$axios.$put(
         `/enroll/${data.id}/`,
         data

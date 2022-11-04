@@ -9,7 +9,7 @@ const actions = {
     async edit({ commit },  customer ) {
       console.log(customer)
       const response = await this.$axios.$put(
-        `/classes/`,
+        `/classes/${customer.id}/`,
         customer
       );
       response.customer = customer;

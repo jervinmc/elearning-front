@@ -180,16 +180,16 @@ export default {
           title: "Classroom Folders",
           to: "/folder",
         },
-        {
-          icon: "mdi-chart-bubble",
-          title: "Settings",
-          to: "/admin/settings",
-        },
-        {
-          icon: "mdi-chart-bubble",
-          title: "Help",
-          to: "/admin/help",
-        },
+        // {
+        //   icon: "mdi-chart-bubble",
+        //   title: "Settings",
+        //   to: "/admin/settings",
+        // },
+        // {
+        //   icon: "mdi-chart-bubble",
+        //   title: "Help",
+        //   to: "/admin/help",
+        // },
       ],
       items: [
         // {
@@ -197,21 +197,21 @@ export default {
         //   title: "Dashboard",
         //   to: "/",
         // },
-        {
-          icon: "mdi-chart-bubble",
-          title: "Notification",
-          to: "/students/notification",
-        },
+        // {
+        //   icon: "mdi-chart-bubble",
+        //   title: "Notification",
+        //   to: "/students/notification",
+        // },
         {
           icon: "mdi-chart-bubble",
           title: "Classes",
           to: "/students/classes",
         },
-        {
-          icon: "mdi-chart-bubble",
-          title: "TO-DO",
-          to: "/students/todo",
-        },
+        // {
+        //   icon: "mdi-chart-bubble",
+        //   title: "TO-DO",
+        //   to: "/students/todo",
+        // },
         {
           icon: "mdi-chart-bubble",
           title: "Offline Files",
@@ -222,16 +222,16 @@ export default {
           title: "Classroom Folders",
           to: "/folder",
         },
-        {
-          icon: "mdi-chart-bubble",
-          title: "Settings",
-          to: "/students/settings",
-        },
-        {
-          icon: "mdi-chart-bubble",
-          title: "Help",
-          to: "/help",
-        },
+        // {
+        //   icon: "mdi-chart-bubble",
+        //   title: "Settings",
+        //   to: "/students/settings",
+        // },
+        // {
+        //   icon: "mdi-chart-bubble",
+        //   title: "Help",
+        //   to: "/help",
+        // },
       ],
       miniVariant: false,
       right: true,

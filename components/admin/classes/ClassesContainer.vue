@@ -44,19 +44,19 @@
               </v-btn>
             </template>
             <v-list dense>
-              <v-list-item @click.stop="editItem(item)">
+              <!-- <v-list-item @click.stop="editItem(item)">
                 <v-list-item-content>
                   <v-list-item-title>Edit</v-list-item-title>
                 </v-list-item-content>
-              </v-list-item>
+              </v-list-item> -->
               <v-list-item @click.stop="viewStudent(item)">
                 <v-list-item-content>
                   <v-list-item-title>View Students</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item @click.stop="deleteItem(item)">
+              <v-list-item @click.stop="archiveItem(item)">
                 <v-list-item-content>
-                  <v-list-item-title>Delete</v-list-item-title>
+                  <v-list-item-title>Archive</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -83,6 +83,15 @@ export default {
     
   },
   methods: {
+    archiveItem(item){
+      // this.selectedItem = item
+      // this.selectedItem.status ='Archived'
+      this.$store.dispatch('enroll/edit',
+      {
+        id:item.id,
+        status:"Archived"
+      })
+    },
     viewStudent(item){
         location=`/admin/classes?student=${item.code}`
 
@@ -100,6 +109,7 @@ export default {
   },
   data() {
     return {
+      selectedItem:{},
       isViewed:false,
       headers_enroll: [
         { text: "ID", value: "id" },
