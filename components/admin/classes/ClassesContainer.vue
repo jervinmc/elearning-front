@@ -54,7 +54,7 @@
                   <v-list-item-title>View Students</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item @click.stop="archiveItem(item)">
+              <v-list-item v-if="isViewed" @click.stop="archiveItem(item)">
                 <v-list-item-content>
                   <v-list-item-title>Archive</v-list-item-title>
                 </v-list-item-content>
