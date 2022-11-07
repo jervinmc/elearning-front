@@ -81,7 +81,7 @@
       <div>
         <v-data-table
           dense
-          :headers="headers"
+          :headers="$route.query.category=='Modules' ? headers_module : headers"
           :items="file_data"
           item-key="name"
           class="elevation-1"
@@ -141,7 +141,7 @@ export default {
       this.isConfirmation = false;
     },
     openFolder(folder) {
-      location = `?folder=${folder.folder_name}&&id=${folder.id}`;
+      location = `?folder=${folder.folder_name}&&id=${folder.id}&category=${folder.category}`;
     },
   },
   data() {
@@ -161,6 +161,16 @@ export default {
         { text: "File Name", value: "file_name" },
                 { text: "Results", value: "results" },
         { text: "Plagiarism from", value: "percent_from" },
+        { text: "Actions", value: "action" },
+      ],
+      headers_module: [
+        {
+          text: "Author",
+          align: "start",
+          sortable: false,
+          value: "author",
+        },
+        { text: "File Name", value: "file_name" },
         { text: "Actions", value: "action" },
       ],
     };

@@ -16,6 +16,18 @@
                 ></v-text-field>
               </div>
             </v-col>
+            <v-col cols="12">
+              <div>Category</div>
+              <div>
+                <v-select
+                  :rules="standardRules"
+                  outlined
+                  dense
+                  :items="['Modules','Activity']"
+                  v-model="register.category"
+                ></v-select>
+              </div>
+            </v-col>
           </v-row>
         </v-col>
       </v-row>
@@ -84,6 +96,7 @@ export default {
     };
   },
   created() {
+   
     this.register.certificate_id = uuid.v4();
     console.log(this.$auth);
     this.$store.dispatch("users/viewUserResident");

@@ -95,6 +95,7 @@ export default {
     };
   },
   created() {
+    this.register.category=this.$route.query.category
     this.register.certificate_id = uuid.v4();
     console.log(this.$auth);
     this.$store.dispatch("users/viewUserResident");
