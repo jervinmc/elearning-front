@@ -1,9 +1,11 @@
 <template>
   <div>
+    <v-img src="/images/backgrounds.png"  height="100vh"  width="100vw">
     <hero />
-    <dir>
+    <div>
       <about />
-    </dir>
+    </div>
+    </v-img>
   </div>
 </template>
 

@@ -35,7 +35,7 @@
     <!-- is not logged in yet -->
     <v-app-bar
       color="white"
-      v-if="$route.name == 'login' || $route.name == 'index' || $route.name == 'register' || $route.name == 'contact' "
+      v-if="$route.name == 'login' || $route.name == 'about' || $route.name == 'index' || $route.name == 'register' || $route.name == 'contact' "
       :clipped-left="clipped"
       fixed
       app
@@ -51,7 +51,7 @@
         />
       </div>
       <v-spacer />
-      <div
+      <!-- <div
         :class="
           $route.name == 'contact'
             ? 'px-10 pointer secondary--text'
@@ -60,6 +60,17 @@
         @click="pushRoute('contact')"
       >
         Contact Us
+      </div> -->
+      <div
+        :class="
+          $route.name == 'login'
+            ? 'px-10 pointer secondary--text'
+            : 'px-10 pointer'
+        "
+        @click="pushRoute('about')"
+        v-if="!$auth.loggedIn"
+      >
+        About
       </div>
       <!-- <div :class="$route.name=='client-profiles' ? 'px-10 pointer secondary--text' : 'px-10 pointer'">Travel Requirements</div> -->
       <div
@@ -91,7 +102,15 @@
       </div>
       <v-spacer></v-spacer>
         <v-col cols="auto">
-        <v-avatar color="black" size="35" class="white--text"> J </v-avatar>
+        <v-avatar
+              size="60"
+              color="grey"
+              class="white--text pointer"
+              >
+                  <v-img :src="$auth.user.image">
+                  </v-img>
+              </v-avatar
+            >
       </v-col>
       <div v-if="$auth.loggedIn">
         <v-menu offset-y>

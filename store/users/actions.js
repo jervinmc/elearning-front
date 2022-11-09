@@ -18,6 +18,19 @@ const actions = {
     );
     response.customer = customer;
   },
+  async editImage({ commit },  customer ) {
+    console.log(customer)
+    const response = await this.$axios.$put(
+      `/users/${customer.get('id')}/`,
+      customer,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    response.customer = customer;
+  },
 };
 
 export default actions;

@@ -158,7 +158,7 @@ export default {
         
         users.append('id',this.$auth.user.id)
         users.append('image',e)
-        this.$store.dispatch('users/editUser',users)
+        this.$store.dispatch('users/editImage',users)
       } catch (error) {
         alert(error);
         return;
@@ -177,6 +177,7 @@ export default {
   },
   data() {
     return {
+    image:'',
     isEdit:false,
       register:{},
       url:'',
