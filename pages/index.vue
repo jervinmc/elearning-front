@@ -1,10 +1,7 @@
 <template>
   <div>
-    <v-img src="/images/backgrounds.png"  height="100vh"  width="100vw">
+    <v-img src="/images/back.png" class="d-flex justify-center align-center px-16" height="100vh">
     <hero />
-    <div>
-      <about />
-    </div>
     </v-img>
   </div>
 </template>

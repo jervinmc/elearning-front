@@ -44,16 +44,16 @@
               </v-btn>
             </template>
             <v-list dense>
-              <v-list-item @click.stop="editItem(item)">
+              <v-list-item @click.stop="archive(item)">
                 <v-list-item-content>
-                  <v-list-item-title>Edit</v-list-item-title>
+                  <v-list-item-title>Archive</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item @click.stop="deleteItem(item)">
+              <!-- <v-list-item @click.stop="deleteItem(item)">
                 <v-list-item-content>
                   <v-list-item-title>Delete</v-list-item-title>
                 </v-list-item-content>
-              </v-list-item>
+              </v-list-item> -->
             </v-list>
           </v-menu>
         </template>
@@ -71,6 +71,21 @@ export default {
     this.$store.dispatch("enroll/viewByStudent");
   },
   methods: {
+   async archive(item){
+        this.isLoaded = true;
+        var a = item
+        a.status='Archived'
+
+      try {
+        await this.$store.dispatch("enroll/edit", a);
+        this.$toastr.s("SUCCESS MESSAGE", "Successfully Added!");
+        this.$emit("cancel");
+        location.reload()
+      } catch (error) {
+        alert(error);
+      }
+      this.isLoaded = false;
+    },
     refresh(){
         this.addForm = false;
         this.$store.dispatch("classes/viewClassByAdmin")
@@ -88,7 +103,7 @@ export default {
         { text: "ID", value: "id" },
         { text: "Code", value: "code" },
         { text: "Class Name", value: "class_name" },
-   
+        { text: "Actions", value: "opt" },
         ,
       ],
       editForm: false,

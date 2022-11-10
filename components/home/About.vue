@@ -1,5 +1,5 @@
 <template>
-    <v-sheet class="d-flex justify-center align-center pl-16" align="center" height="20vh" width="100wh">
+    <v-sheet >
         <div align="center">
          
         </div>

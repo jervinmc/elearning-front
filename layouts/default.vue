@@ -11,7 +11,7 @@
       app
     >
       <div>
-        <v-img src="/images/logo_elearning.jpg" height="50" width="50"></v-img>
+        <v-img src="/images/logo.png" height="50" width="50"></v-img>
       </div>
       <v-list>
         <v-list-item
@@ -31,6 +31,16 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
+      <template v-slot:append>
+        <div align="end">
+          <v-row>
+            <v-col align="center" class="pb-10">
+                <v-img src="/images/logo.png" height="100" width="100"></v-img>
+            </v-col>
+          </v-row>
+        </div>
+        <v-divider color="white" class="pt-1"></v-divider>
+      </template>
     </v-navigation-drawer>
     <!-- is not logged in yet -->
     <v-app-bar
@@ -43,8 +53,8 @@
       <div align="start">
         <v-img
           class="pointer"
-          src="/logo.jpeg"
-          height="50"
+          src="/images/logo.png"
+          height="60"
           width="100"
           contain
           @click="goIndex"
@@ -154,6 +164,7 @@
           <v-list-item-title>Switch drawer (click me)</v-list-item-title>
         </v-list-item>
       </v-list>
+      
     </v-navigation-drawer>
   </v-app>
 </template>
