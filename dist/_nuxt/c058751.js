@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[56],{618:function(n,t,c){"use strict";c.r(t);var e={created:function(){"Admin"==this.$auth.user.account_type?location="/admin/classes":location="/students/classes"}},o=c(96),component=Object(o.a)(e,(function(){return(0,this._self._c)("div")}),[],!1,null,null,null);t.default=component.exports}}]);

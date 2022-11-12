@@ -25,6 +25,12 @@ const actions = {
         );
         commit("SET_ENROLL", response);
       },
+      async viewByStudentArchived({ commit }, ) {
+        const response = await this.$axios.$get(
+          "/enrolled-student-archived/"
+        );
+        commit("SET_ENROLL", response);
+      },
       async viewByCode({ commit }, data) {
         const response = await this.$axios.$get(
           `/enrolled-code/${data}/`

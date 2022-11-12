@@ -242,6 +242,7 @@ export default {
         //   title: "TO-DO",
         //   to: "/students/todo",
         // },
+        
         {
           icon: "mdi-chart-bubble",
           title: "Offline Files",
@@ -251,6 +252,11 @@ export default {
           icon: "mdi-chart-bubble",
           title: "Classroom Folders",
           to: "/folder",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Archived Class",
+          to: "/students/archived",
         },
         // {
         //   icon: "mdi-chart-bubble",
