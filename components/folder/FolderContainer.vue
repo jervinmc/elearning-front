@@ -1,5 +1,36 @@
 <template>
   <div class="pa-5">
+     <v-dialog v-model="isConfirmationDelete" width="500">
+      <v-card class="pa-16">
+        <div align="center">
+            Are you sure you want to delete this item?
+          <div class="pt-10">
+            <v-row>
+              <v-col align="center">
+                <v-btn
+                  color="grey"
+                  class="text-capitalize rounded-xl"
+                  @click="isConfirmationDelete = false"
+                  width="100"
+                >
+                  Discard
+                </v-btn>
+              </v-col>
+              <v-col class="start">
+                <v-btn
+                  width="100"
+                  color="secondary"
+                  class="text-capitalize rounded-xl"
+                  @click="submitHandlerRegisterDelete"
+                >
+                  Delete
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </div>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="isConfirmationRename" width="500">
       <v-card class="pa-16">
         <div align="center">
@@ -34,22 +65,6 @@
         </div>
       </v-card>
     </v-dialog>
-    <!-- <v-col cols="auto" v-if="!isClicked">
-      <div class="pa-2">
-        <v-card
-          :color="isClickRename ? 'secondary' : ''"
-          :dark="isClickRename ? true : false"
-          @click="clickRename"
-          width="80"
-          height="70"
-          class="pa-2"
-          align="center"
-        >
-          <v-icon> mdi-file </v-icon>
-          <div>Rename</div>
-        </v-card>
-      </div>
-    </v-col> -->
     <v-dialog v-model="addForm" width="500">
       <add @cancel="cancelForm" />
     </v-dialog>
@@ -69,12 +84,12 @@
         <v-col class="text-h5">
           <b> Folders </b>
         </v-col>
-        <v-col align="end" v-if="!isClicked">
+        <v-col align="end" v-if="!isClicked && $auth.user.account_type=='Admin'">
           <v-btn outlined @click="addForm = true" class="secondary" dark
             >Add Folder</v-btn
           >
         </v-col>
-        <v-col align="end" v-if="!isClicked" cols="auto">
+        <v-col align="end" v-if="!isClicked &&  $auth.user.account_type=='Admin'" cols="auto">
           <v-btn outlined
           :color="isClickRename ? 'secondary' : ''"
           dark
@@ -83,7 +98,16 @@
             >Rename</v-btn
           >
         </v-col>
-        <v-col v-else align="end">
+        <v-col align="end" v-if="!isClicked &&  $auth.user.account_type=='Admin'" cols="auto">
+          <v-btn outlined
+          :color="isClickDelete ? 'secondary' : ''"
+          dark
+          @click="clickDelete"
+          class="secondary" 
+            >Delete</v-btn
+          >
+        </v-col>
+        <v-col v-if="isClicked" align="end">
           <v-btn outlined @click="uploadForm = true" class="secondary" dark
             >Upload File</v-btn
           >
@@ -99,6 +123,7 @@
               class="rounded-lg"
               hide-details=""
               dense
+              v-model="search"
               placeholder="search"
               outlined
               append-icon="mdi-magnify"
@@ -107,9 +132,10 @@
         </v-col>
       </v-row>
       <v-row v-if="folder_data.length > 0">
-        <v-col cols="6" v-for="data in folder_data" :key="data">
+        <!--eslint-disable-->
+        <v-col cols="6" v-for="data in folder_data" :key="data" v-if="search=='' ? true : search==data.folder_name">
           <v-card elevation="5" class="pa-5 rounded-lg"
-           @click="isClickRename ? renameFolder(data) : openFolder(data)" 
+           @click="isClickRename ? renameFolder(data) : isClickDelete ? deleteFolder(data) : openFolder(data)" 
           >
             <v-row>
               <v-col cols="auto">
@@ -136,12 +162,14 @@
         <v-text-field
           placeholder="search"
           outlined
+          v-model="search"
           append-icon="mdi-magnify"
         ></v-text-field>
       </div>
       <div>
         <v-data-table
           dense
+          :search="search"
           :headers="
             $route.query.category == 'Modules' ? headers_module : headers
           "
@@ -186,6 +214,18 @@ export default {
     else return;
   },
   methods: {
+     async submitHandlerRegisterDelete(){
+      try {
+        await this.$store.dispatch("folder/delete",{id:this.selectedItem.id} );
+        alert('Successfully deleted')
+        location.reload()
+        // this.isAdd=false;
+        // this.getAll()
+      } catch (error) {
+        location.reload()
+        // alert(error)
+      }
+    },
     async submitHandlerRegisterRename(){
       try {
         await this.$store.dispatch("folder/edit",{id:this.selectedItem.id,folder_name:this.editedFolder} );
@@ -197,10 +237,19 @@ export default {
         alert(error)
       }
     },
+    
+     deleteFolder(item){
+      this.selectedItem = item
+      this.isConfirmationDelete = true
+    },
      renameFolder(item){
       this.selectedItem = item
       this.editedFolder = item.folder_name
       this.isConfirmationRename = true
+    },
+    
+    clickDelete(){
+      this.isClickDelete=!this.isClickDelete;
     },
     clickRename(){
       this.isClickRename=!this.isClickRename;
@@ -225,6 +274,9 @@ export default {
   },
   data() {
     return {
+      isClickDelete:false,
+      search:'',
+      isConfirmationDelete:false,
       isConfirmationRename:false,
       selectedItem:{},
       isClickRename:false,
@@ -241,7 +293,7 @@ export default {
         },
         { text: "File Name", value: "file_name" },
         { text: "Results", value: "results" },
-        { text: "Plagiarism from", value: "percent_from" },
+        { text: "Similiar from", value: "percent_from" },
         { text: "Actions", value: "action" },
       ],
       headers_module: [

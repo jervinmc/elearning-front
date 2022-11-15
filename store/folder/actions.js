@@ -13,6 +13,13 @@ const actions = {
       );
       response.data = data;
     },
+    async delete({ commit },  data ) {
+      const response = await this.$axios.$delete(
+        `/folder/${data.id}/`,
+        data
+      );
+      // response.data = data;
+    },
     async view({ commit }, ) {
         const response = await this.$axios.$get(
           "/folder/"
