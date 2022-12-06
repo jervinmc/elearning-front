@@ -133,7 +133,7 @@
       </v-row>
       <v-row v-if="folder_data.length > 0">
         <!--eslint-disable-->
-        <v-col cols="6" v-for="data in folder_data" :key="data" v-if="search=='' ? true : search==data.folder_name">
+        <v-col cols="6" v-for="data in folder_data" :key="data" v-if="search=='' && validateFolder(data.code) ? true : search==data.folder_name">
           <v-card elevation="5" class="pa-5 rounded-lg"
            @click="isClickRename ? renameFolder(data) : isClickDelete ? deleteFolder(data) : openFolder(data)" 
           >
@@ -206,14 +206,27 @@ export default {
   computed: {
     ...mapState("folder", ["folder_data"]),
     ...mapState("files", ["file_data"]),
+    ...mapState("classes", ["classes_data"]),
+     ...mapState("enroll", ["enroll_data"]),
   },
   created() {
+    this.$store.dispatch("enroll/viewByStudent");
+    this.$store.dispatch("classes/viewClassByAdmin");
     this.$store.dispatch("files/viewByFolderid", this.$route.query.id);
     this.$store.dispatch("folder/view");
     if (this.$route.query.folder != undefined) this.isClicked = true;
     else return;
   },
   methods: {
+    validateFolder(code){
+     var len = this.enroll_data.filter(data=>data.code==code)
+      if(len.length>0){
+        return true
+      }
+      else{
+        return false
+      }
+    },
      async submitHandlerRegisterDelete(){
       try {
         await this.$store.dispatch("folder/delete",{id:this.selectedItem.id} );
@@ -284,7 +297,7 @@ export default {
       addForm: false,
       isClicked: false,
       items: [],
-      headers: [
+      headers: this.$auth.user.account_type=='Admin' ? [
         {
           text: "Author",
           align: "start",
@@ -295,6 +308,16 @@ export default {
         { text: "Results", value: "results" },
         { text: "Similiar from", value: "percent_from" },
         { text: "Actions", value: "action" },
+      ] : [
+        {
+          text: "Author",
+          align: "start",
+          sortable: false,
+          value: "author",
+        },
+        { text: "File Name", value: "file_name" },
+        { text: "Results", value: "results" },
+        { text: "Similiar from", value: "percent_from" },
       ],
       headers_module: [
         {

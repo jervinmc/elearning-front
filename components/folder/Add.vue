@@ -28,6 +28,20 @@
                 ></v-select>
               </div>
             </v-col>
+            <v-col cols="12">
+              <div>Code</div>
+              <div>
+                <v-select
+                  :rules="standardRules"
+                  outlined
+                  dense
+                  :items="classes_data"
+                  v-model="register.code"
+                  item-value="code"
+                  item-text="code"
+                ></v-select>
+              </div>
+            </v-col>
           </v-row>
         </v-col>
       </v-row>
@@ -53,6 +67,7 @@ import validations from "@/utils/validations";
 export default {
   computed: {
     ...mapState("users", ["user_residents"]),
+    ...mapState("classes", ["classes_data"]),
     // residents(){
     //   return this.users.filter(data=>data.account_type=='Resident')
     // }
@@ -96,7 +111,7 @@ export default {
     };
   },
   created() {
-   
+    this.$store.dispatch("classes/viewClassByAdmin");
     this.register.certificate_id = uuid.v4();
     console.log(this.$auth);
     this.$store.dispatch("users/viewUserResident");

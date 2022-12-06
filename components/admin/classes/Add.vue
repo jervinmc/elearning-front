@@ -60,6 +60,9 @@ export default {
   },
   props: ["account_type"],
   auth: false,
+  created(){
+    this.$store.dispatch("classes/viewClassByAdmin");
+  },
   data() {
     return {
       selectedItem:{},
@@ -104,6 +107,10 @@ export default {
       this.$emit("cancel");
     },
     async submitHandlerRegister() {
+      if(this.classes_data.filter(data=>data.code==this.register.code).length>0){
+        alert('Code is already exists.')
+        return
+      }
       this.isLoaded = true;
       try {
         this.register.prof_id = this.$auth.user.id
