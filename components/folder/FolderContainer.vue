@@ -219,6 +219,9 @@ export default {
   },
   methods: {
     validateFolder(code){
+      if(this.$auth.user.account_type=='Admin'){
+        return true
+      }
      var len = this.enroll_data.filter(data=>data.code==code)
       if(len.length>0){
         return true

@@ -12,6 +12,7 @@
                   :rules="standardRules"
                   outlined
                   dense
+                  disabled
                   v-model="register.code"
                 ></v-text-field>
               </div>
@@ -61,6 +62,8 @@ export default {
   props: ["account_type"],
   auth: false,
   created(){
+    let r = (Math.random() + 1).toString(36).substring(7);
+    this.register.code = r;
     this.$store.dispatch("classes/viewClassByAdmin");
   },
   data() {
