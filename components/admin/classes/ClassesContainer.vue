@@ -1,5 +1,22 @@
 <template>
   <div class="pa-10">
+    <v-dialog v-model="isDelete" width="500">
+      <v-card class="pa-10">
+          <div class="pa-10">
+            Are you sure you want to delete this item?
+          </div>
+          <div>
+            <v-row>
+              <v-col align="end">
+                <v-btn outlined @click="isDelete=false">Cancel</v-btn>
+              </v-col>
+              <v-col>
+                <v-btn  color="secondary" @click="submitHandlerDelete">Submit</v-btn>
+              </v-col>
+            </v-row>
+          </div>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="addForm" width="500">
       <add @cancel="cancelForm" />
     </v-dialog>
@@ -54,6 +71,11 @@
                   <v-list-item-title>View Students</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
+                <v-list-item  @click.stop="deleteItem(item)">
+                <v-list-item-content>
+                  <v-list-item-title>Delete</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
               <v-list-item v-if="isViewed" @click.stop="archiveItem(item)">
                 <v-list-item-content>
                   <v-list-item-title>Archive</v-list-item-title>
@@ -83,6 +105,15 @@ export default {
     
   },
   methods: {
+    submitHandlerDelete(){
+      this.$store.dispatch('classes/delete',{id:this.selectedItem.id})
+      alert('Successfully Deleted')
+      location.reload()
+    },
+    deleteItem(item){
+      this.isDelete = true
+      this.selectedItem = item
+    },
     archiveItem(item){
       // this.selectedItem = item
       // this.selectedItem.status ='Archived'
@@ -109,17 +140,16 @@ export default {
   },
   data() {
     return {
+      isDelete:false,
       selectedItem:{},
       isViewed:false,
       headers_enroll: [
-        { text: "ID", value: "id" },
         { text: "Student ID", value: "student_id" },
         { text: "Student Name", value: "name" },
         { text: "Actions", value: "opt" },
         ,
       ],
       headers: [
-        { text: "ID", value: "id" },
         { text: "Code", value: "code" },
         { text: "Class Name", value: "class_name" },
         { text: "Actions", value: "opt" },
