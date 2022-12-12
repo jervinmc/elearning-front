@@ -2,19 +2,19 @@
   <div class="pa-10">
     <v-dialog v-model="isDelete" width="500">
       <v-card class="pa-10">
-          <div class="pa-10">
-            Are you sure you want to delete this item?
-          </div>
-          <div>
-            <v-row>
-              <v-col align="end">
-                <v-btn outlined @click="isDelete=false">Cancel</v-btn>
-              </v-col>
-              <v-col>
-                <v-btn  color="secondary" @click="submitHandlerDelete">Submit</v-btn>
-              </v-col>
-            </v-row>
-          </div>
+        <div class="pa-10">Are you sure you want to delete this item?</div>
+        <div>
+          <v-row>
+            <v-col align="end">
+              <v-btn outlined @click="isDelete = false">Cancel</v-btn>
+            </v-col>
+            <v-col>
+              <v-btn color="secondary" @click="submitHandlerDelete"
+                >Submit</v-btn
+              >
+            </v-col>
+          </v-row>
+        </div>
       </v-card>
     </v-dialog>
     <v-dialog v-model="addForm" width="500">
@@ -40,8 +40,8 @@
     <div>
       <v-data-table
         class="pa-5"
-        :headers="isViewed? headers_enroll : headers"
-        :items="isViewed? enroll_data : classes_data "
+        :headers="isViewed ? headers_enroll : headers"
+        :items="isViewed ? enroll_data : classes_data"
         :search="search"
         :loading="isLoading"
       >
@@ -71,7 +71,7 @@
                   <v-list-item-title>View Students</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-                <v-list-item  @click.stop="deleteItem(item)">
+              <v-list-item @click.stop="deleteItem(item)">
                 <v-list-item-content>
                   <v-list-item-title>Delete</v-list-item-title>
                 </v-list-item-content>
@@ -95,41 +95,44 @@ import Add from "./Add.vue";
 import Edit from "./Edit.vue";
 export default {
   created() {
-    if(this.$route.query.student!=undefined) this.isViewed = true;
-    if(this.isViewed){
-      this.$store.dispatch("enroll/viewByCode",this.$route.query.student);
-    }
-    else{
+    if (this.$route.query.student != undefined) this.isViewed = true;
+    if (this.isViewed) {
+      this.$store.dispatch("enroll/viewByCode", this.$route.query.student);
+    } else {
       this.$store.dispatch("classes/viewClassByAdmin");
     }
-    
   },
   methods: {
-    submitHandlerDelete(){
-      this.$store.dispatch('classes/delete',{id:this.selectedItem.id})
-      alert('Successfully Deleted')
+    submitHandlerDelete() {
+      this.$store.dispatch("classes/delete", { id: this.selectedItem.id });
+      this.$store.dispatch("enroll/deleteEnroll", {
+        code: this.selectedItem.code,
+      });
+      this.$store.dispatch("enroll/viewByCode", this.$route.query.student);
+      this.$store.dispatch("classes/viewClassByAdmin");
+      alert("Successfully Deleted");
+      this.isDelete = false
       location.reload()
+      // location.reload()
     },
-    deleteItem(item){
-      this.isDelete = true
-      this.selectedItem = item
+    deleteItem(item) {
+      this.isDelete = true;
+      this.selectedItem = item;
     },
-    archiveItem(item){
+    archiveItem(item) {
       // this.selectedItem = item
       // this.selectedItem.status ='Archived'
-      this.$store.dispatch('enroll/edit',
-      {
-        id:item.id,
-        status:"Archived"
-      })
+      this.$store.dispatch("enroll/edit", {
+        id: item.id,
+        status: "Archived",
+      });
     },
-    viewStudent(item){
-        location=`/admin/classes?student=${item.code}`
-
+    viewStudent(item) {
+      location = `/admin/classes?student=${item.code}`;
     },
-    refresh(){
-        this.addForm = false;
-        this.$store.dispatch("classes/viewClassByAdmin")
+    refresh() {
+      this.addForm = false;
+      this.$store.dispatch("classes/viewClassByAdmin");
     },
     cancelForm() {
       //   this.$store.dispatch("certificate/viewCertificate");
@@ -140,9 +143,9 @@ export default {
   },
   data() {
     return {
-      isDelete:false,
-      selectedItem:{},
-      isViewed:false,
+      isDelete: false,
+      selectedItem: {},
+      isViewed: false,
       headers_enroll: [
         { text: "Student ID", value: "student_id" },
         { text: "Student Name", value: "name" },

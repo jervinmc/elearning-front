@@ -19,6 +19,13 @@ const actions = {
         );
         commit("SET_ENROLL", response);
       },
+      async deleteEnroll({ commit },data ) {
+        const response = await this.$axios.$post(
+          "/delete-enroll/",
+          data
+        );
+        commit("SET_ENROLL", response);
+      },
       async viewByStudent({ commit }, ) {
         const response = await this.$axios.$get(
           "/enrolled-student/"
