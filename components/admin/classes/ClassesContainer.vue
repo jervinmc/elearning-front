@@ -112,7 +112,7 @@ export default {
       this.$store.dispatch("classes/viewClassByAdmin");
       alert("Successfully Deleted");
       this.isDelete = false
-      location.reload()
+      // location.reload()
       // location.reload()
     },
     deleteItem(item) {
