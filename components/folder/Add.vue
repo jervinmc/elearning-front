@@ -38,7 +38,7 @@
                   :items="classes_data"
                   v-model="register.code"
                   item-value="code"
-                  item-text="code"
+                  item-text="class_name"
                 ></v-select>
               </div>
             </v-col>

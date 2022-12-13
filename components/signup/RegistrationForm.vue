@@ -30,11 +30,8 @@
             </v-col>
             <v-col>
               Gender
-              <v-text-field
-                outlined
-                :rules="standardRules"
-                v-model="register.gender"
-              ></v-text-field>
+              <v-select
+              :items="['Male','Female']" v-model="register.gender" outlined></v-select>
             </v-col>
           </v-row>
         </div>
@@ -48,14 +45,14 @@
                 v-model="register.email"
               ></v-text-field>
             </v-col>
-            <v-col>
+            <!-- <v-col>
               Confirm Email Address
               <v-text-field
                 outlined
                 :rules="standardRules"
                 v-model="register.confirm_email"
               ></v-text-field>
-            </v-col>
+            </v-col> -->
           </v-row>
         </div>
         <div>
@@ -71,6 +68,7 @@
             <v-col>
               Birthdate
               <v-text-field
+              placeholder="MM/DD/YYYY"
                 outlined
                 :rules="standardRules"
                 v-model="register.birthdate"
@@ -94,22 +92,30 @@
           <v-row>
             <v-col>
               Select Province
-              <v-text-field
+              <v-select
                 outlined
+                
+                :items="$provinces()"
+                item-text="name"
+                item-value="name"
                 :rules="standardRules"
                 v-model="register.province"
-              ></v-text-field>
+              ></v-select>
             </v-col>
             <v-col>
               Select City
-              <v-text-field
+               <v-select
                 outlined
+                
+                :items="$cities(register.province)"
                 :rules="standardRules"
+                item-text="name"
+                item-value="name"
                 v-model="register.city"
-              ></v-text-field>
+              ></v-select>
             </v-col>
             <v-col>
-              Select Barangay
+              Enter Barangay
               <v-text-field
                 outlined
                 :rules="standardRules"
