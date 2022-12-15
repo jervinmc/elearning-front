@@ -41,7 +41,7 @@
               Email Address
               <v-text-field
                 outlined
-                :rules="standardRules"
+                :rules="emailRules"
                 v-model="register.email"
               ></v-text-field>
             </v-col>
